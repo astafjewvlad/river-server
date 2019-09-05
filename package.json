@@ -1,0 +1,22 @@
+{
+  "name": "river-server",
+  "version": "1.0.0",
+  "description": "Server-side of River site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astafjewvlad/river-server.git"
+  },
+  "author": "astafjew vlad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/astafjewvlad/river-server/issues"
+  },
+  "homepage": "https://github.com/astafjewvlad/river-server#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
