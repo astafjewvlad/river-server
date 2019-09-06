@@ -8,9 +8,7 @@ const server = {
   port: 5500,
 };
 
-const byRoot = (filepath) => {
-  return path.join(__dirname, filepath);
-}
+const byRoot = (filepath) => path.join(__dirname, filepath);
 
 app.use(express.static('public'));
 
@@ -19,6 +17,6 @@ app.get('/', (req, res) => {
   res.sendFile(byTemplates('/index.html'));
 });
 
-app.listen(server.port, server.host, ()=> {
+app.listen(server.port, server.host, () => {
   console.log(`Server started! Listening ${server.host}:${server.port}`);
 });
