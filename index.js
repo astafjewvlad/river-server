@@ -12,9 +12,16 @@ const byRoot = (filepath) => path.join(__dirname, filepath);
 
 app.use(express.static('public'));
 
+app.set('view engine', 'pug');
+app.set('views', './templates');
+
 app.get('/', (req, res) => {
   const byTemplates = (filepath) => path.join(byRoot('/templates'), filepath);
   res.sendFile(byTemplates('/index.html'));
+});
+
+app.get('/pug', (req, res) => {
+  res.render('index');
 });
 
 app.listen(server.port, server.host, () => {
