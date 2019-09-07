@@ -1,0 +1,13 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    title TrackTest
+  body
+    h1= tracks[0].name
+    img(src=tracks[0].coverImg)
+    audio(src=tracks[0].source controls)
+    p(class="decr")= tracks[0].desc
+    a(class="link" href=tracks[0].links[0].href)
+      img(src=tracks[0].links[0].icon)
+      span= tracks[0].links[0].text

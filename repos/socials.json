@@ -1,0 +1,21 @@
+{
+  "socialLinks": [
+    {
+      "href": "https://vk.com/riiiveeer11",
+      "text": "Страница в VK",
+      "icon": "/media/vk-icon.webp"
+    }, {
+      "href": "https://vk.com/river_pub",
+      "text": "Группа в VK",
+      "icon": "/media/vk-icon.webp"
+    }, {
+      "href": "https://www.instagram.com/riiiveeer11/",
+      "text": "Instagram",
+      "icon": "/media/instagram-icon.webp"
+    }, {
+      "href": "https://soundcloud.com/riiiveeer11",
+      "text": "Soundcloud",
+      "icon": "/media/soundcloud-icon.png"
+    }
+  ]
+}

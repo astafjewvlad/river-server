@@ -17,17 +17,15 @@ app.set('view engine', 'pug');
 app.set('views', './templates');
 
 app.get('/', (req, res) => {
-  res.render('index');
-});
-
-app.get('/tracktest', (req, res) => {
-  fs.readFile(byRoot('/repos/tracks.json'), (err, data) => {
-    if (err) {
-      res.sendStatus(404);
-      return;
-    }
-    const { tracks } = JSON.parse(data);
-    res.render('tracktest', { tracks });
+  fs.readFile(byRoot('/repos/tracks.json'), (tracksErr, tracksData) => {
+    const { tracks } = (tracksErr) ? [] : JSON.parse(tracksData);
+    fs.readFile(byRoot('/repos/socials.json'), (linksErr, linksData) => {
+      const { socialLinks } = (linksErr) ? [] : JSON.parse(linksData);
+      fs.readFile(byRoot('/repos/about.json'), (aboutErr, aboutData) => {
+        const about = (aboutErr) ? {} : JSON.parse(aboutData);
+        res.render('index', { tracks, socialLinks, about });
+      });
+    });
   });
 });
 

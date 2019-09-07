@@ -23,57 +23,38 @@ html(lang="ru")
         p(class="sublead") Молодой реп исполнитель из России
       video(id="banner-video" src="/media/Banner.mp4" muted autoplay loop)
     main
-      div(id="about-container")
-        a(class="anchor" name="about-anchor")
-        div(class="container") 
-          section(id="about")
-            img(class="about-img" src="https://sun9-42.userapi.com/c840529/v840529875/8a3d9/S-Mc4y0SCHg.jpg")
-            div(class="about-text")
-              h2 Александр Князев
-              p Aliquam euismod, odio tortor pellentesque odio, ac ultrices enim nibh sed quam. Integer tortor velit, condimentum a, vestibulum eget, sagittis nec, neque. Aenean est urna, bibendum et, imperdiet at, rhoncus in, arcu. In hac habitasse platea dictumst. Vestibulum blandit dignissim dui. Maecenas vitae magna non felis ornare consectetuer. Sed lorem. Nam leo. In eget pede. Donec porta.
-              ul(id="socials")
-                li(class="social-li")
-                  a(href="https://vk.com/riiiveeer11" class="social-link")
-                    img(src="/media/vk-icon.webp" alt="" class="social-icon")
-                    | Страница VK
-                li(class="social-li")
-                  a(href="https://vk.com/river-pub" class="social-link")
-                    img(src="/media/vk-icon.webp" alt="" class="social-icon")
-                    | Группа VK
-                li(class="social-li")
-                  a(href="https://www.instagram.com/riiiveeer11/" class="social-link")
-                    img(src="/media/instagram-icon.webp" alt="" class="social-icon")
-                    | Instagram
-                li(class="social-li")
-                  a(href="https://soundcloud.com/riiiveeer11" class="social-link")
-                    img(src="/media/soundcloud-icon.png" alt="" class="social-icon")
-                    | Soundcloud
+      - if (about)
+        div(id="about-container")
+          a(class="anchor" name="about-anchor")
+          div(class="container") 
+            section(id="about")
+              img(class="about-img" src=about.photo)
+              div(class="about-text")
+                h2= about.name
+                p= about.text
+                ul(id="socials")
+                  each link in socialLinks
+                    li(class="social-li")
+                      a(href=link.href class="social-link")
+                        img(src=link.icon alt="" class="social-icon")
+                        span= link.text
       div(class="music-container")
         a(class="anchor" name="music-anchor")
         div(class="container")
           section(id="music")
             h2(class="section-header") Треки
             div(class="songs")
-              article(class="song")
-                img(class="song-cover" src="/media/RiverSteny.jpg" alt="")
-                div(class="song-info") 
-                  h3 Стены  
-                  audio(class="song-player" src="/media/River -- Стены.mp3" controls)
-                  p Aliquam euismod, odio tortor pellentesque odio, ac ultrices enim nibh sed quam. Integer tortor velit, condimentum a, vestibulum eget, sagittis nec
-                  a(class="song-link social-link"  href="https://soundcloud.com/riiiveeer11/river-steny")
-                    img(src="/media/soundcloud-icon.png" alt="" class="social-icon")
-                    | Слушать на Soundcloud
-                  p(class="song-date") 08.03.19
-                div(class="song-active-background")
-              article(class="song")
-                img(class="song-cover" src="/media/RiverSummer.jpg" alt="")
-                div(class="song-info")
-                  h3 Summer
-                  audio(class="song-player" src="/media/River -- Summer.mp3" controls)
-                  p Aliquam euismod, odio tortor pellentesque odio, ac ultrices enim nibh sed quam. Integer tortor velit, condimentum a, vestibulum eget, sagittis nec
-                  a(class="song-link social-link" href="https://soundcloud.com/riiiveeer11/summer-prod-by-cold-dwyer")
-                    img(src="/media/soundcloud-icon.png" alt="" class="social-icon")
-                    | Слушать на Soundcloud
-                  p(class="song-date") 08.03.19
-                div(class="song-active-background")
+              each track in tracks
+                article(class="song")
+                  img(class="song-cover" src=track.coverImg alt="")
+                  div(class="song-info") 
+                    h3= track.name 
+                    audio(class="song-player" src=track.source controls)
+                    p= track.desc
+                    each link in track.links
+                      a(class="song-link social-link" href=link.href)
+                        img(src=link.icon alt="" class="social-icon")
+                        span= link.text
+                    p(class="song-date") 08.03.19
+                  div(class="song-active-background")
     script(src="/js/main.js" type="text/javascript")

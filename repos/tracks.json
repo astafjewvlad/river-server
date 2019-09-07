@@ -12,6 +12,18 @@
           "text": "Слушать на Soundcloud"
         }
       ]
+    }, {
+      "source": "/media/River -- Summer.mp3",
+      "name": "Summer",
+      "coverImg": "/media/RiverSummer.jpg",
+      "desc": "Aliquam euismod, odio tortor pellentesque odio, ac ultrices enim nibh sed quam. Integer tortor velit, condimentum a, vestibulum eget, sagittis nec",
+      "links": [
+        { 
+          "icon": "/media/soundcloud-icon.png",
+          "href": "https://soundcloud.com/riiiveeer11/summer-prod-by-cold-dwyer",
+          "text": "Слушать на Soundcloud"
+        }
+      ]
     }
   ]
 }
