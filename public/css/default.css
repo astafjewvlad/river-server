@@ -5,6 +5,7 @@
   --text-light-color: #fff;
   --text-dark-color: #333;
   --bg-dark-color: black;
+  --bg-light-color: white;
   --a-color: #3bf;
   --init-padding: 10px;
 }
@@ -239,7 +240,7 @@ header {
 
   background-size: cover;
   display: none;
-  filter: blur(3px);
+  filter: blur(15px);
   height: 100%;
   transform: scale(1.2);
   width: 100%;
@@ -295,7 +296,82 @@ header {
 .section-header {
   text-align: center;
 }
+.song-links {
+  margin-left: 10px;
+}
 
 .song-link {
   text-decoration: none;
+}
+
+.song-date {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.song-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.song-play-button {
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: inherit;
+  font-weight: 500;
+  box-shadow:0 10px 20px #00000024;
+  color: var(--text-light-color);
+  background: #fa4416;
+  cursor: pointer;
+}
+
+
+/*
+ * Player
+ * */
+
+.player-container {
+  position: fixed;
+  bottom: -74px;
+  left: 0;
+
+  background: var(--bg-light-color);
+  color: var(--text-dark-color);
+  width: 100%;
+}
+
+.player-active {
+  transform: translateY(-74px);
+}
+
+.player {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.player-track-cover {
+  display: block;
+  object-fit: cover;
+  width: 50px;
+  margin-right: 20px;
+  border-radius: 5px;
+  box-shadow: 0 10px 20px rgba(0,0,0,.2);
+}
+
+.player-controls {
+  width: 100%;
+}
+
+.player-track-info {
+  display: flex;
+  width: 250px;
+  flex-direction: column;
+}
+
+.player-track-name {
+  font-weight: 500;
+  margin-right: 50px;
 }
