@@ -16,7 +16,7 @@ function initSong(containerElement) {
   containerElement.querySelectorAll('.song-link').forEach((l) => {
     links.push({
       icon: l.querySelector('.social-icon').src,
-      href: l.href
+      href: l.href,
     });
   });
   return new Song(src, name, cover, links, containerElement);
@@ -25,17 +25,17 @@ function initSong(containerElement) {
 function initPlayer(containerId) {
   const container = document.querySelector(containerId);
   return {
-    audio: container.querySelector('#player-audio'), 
+    audio: container.querySelector('#player-audio'),
     cover: container.querySelector('.player-track-cover'),
     name: container.querySelector('.player-track-name'),
     links: container.querySelector('.player-track-links'),
     currentSong: null,
-    changeSong (newSong) {
+    changeSong(newSong) {
       if (!this.audio.paused) {
         this.audio.pause();
       }
-      this.audio.src = newSong.src;  
-      this.cover.src = newSong.cover; 
+      this.audio.src = newSong.src;
+      this.cover.src = newSong.cover;
       this.name.innerHTML = newSong.name;
       while (this.links.firstChild) {
         this.links.firstChild.remove();
@@ -52,8 +52,8 @@ function initPlayer(containerId) {
       });
       this.currentSong = newSong;
       this.audio.play();
-    }
-  }
+    },
+  };
 }
 
 function main() {
