@@ -1,0 +1,17 @@
+{
+  "tracks": [ 
+    {
+      "source": "/media/River -- Стены.mp3",
+      "name": "Стены",
+      "coverImg": "/media/RiverSteny.jpg",
+      "desc": "Aliquam euismod, odio tortor pellentesque odio, ac ultrices enim nibh sed quam. Integer tortor velit, condimentum a, vestibulum eget, sagittis nec",
+      "links": [
+        { 
+          "icon": "/media/soundcloud-icon.png",
+          "href": "https://soundcloud.com/riiiveeer11/river-steny",
+          "text": "Слушать на Soundcloud"
+        }
+      ]
+    }
+  ]
+}
