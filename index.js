@@ -5,8 +5,8 @@ const fs = require('fs');
 const app = express();
 
 const server = {
-  host: 'localhost',
-  port: 5500,
+  host: process.argv[2],
+  port: process.argv[3],
 };
 
 const byRoot = (filepath) => path.join(__dirname, filepath);
