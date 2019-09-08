@@ -45,29 +45,35 @@ html(lang="ru")
             h2(class="section-header") Треки
             div(class="songs")
               each track in tracks
-                article(class="song" data-source=track.source)
+                article(class="song" data-source=track.source data-cover=track.coverImg data-name=track.name)
                   img(class="song-cover" src=track.coverImg alt="")
                   div(class="song-info") 
                     h3(class="song-name")= track.name 
                     p= track.desc
                     p(class="song-date") 08.03.19
                     div(class="song-actions")
-                      button(class="song-play-button") Слушать
+                      button(class="song-button song-play-button") 
+                        i(class="fas fa-play")
+                        span(class="song-button-text") Слушать
+                      button(class="song-button song-pause-button song-button-hidden")
+                        i(class="fas fa-pause")
+                        span(class="song-button-text") Пауза
                       div(class="song-links")
                         each link in track.links
                           a(class="song-link social-link" href=link.href)
                             img(src=link.icon alt="" class="social-icon")
                             span(class="song-link-text")= link.text
                   div(class="song-active-background")
-    div(class="player-container")
+    div(id="player-container")
       div(class="container")
-        div(class="player")
-          img(class="player-track-cover" src="/media/RiverSummer.jpg")
-          div(class="player-track-info")
-            span(class="player-track-name") Summer
-            div(class="player-track-links")
+        div(id="player")
+          img(id="player-track-cover" src="/media/RiverSummer.jpg")
+          div(id="player-track-info")
+            span(id="player-track-name") Summer
+            div(id="player-track-links")
              a(class="social-link" href="#")
               img(src="/media/soundcloud-icon.png" class="social-icon")
           audio(id="player-audio" class="player-controls" controls controlsList="nodownload")
         
     script(src="/js/main.js" type="text/javascript")
+    script(src="https://kit.fontawesome.com/dec4476dad.js")
