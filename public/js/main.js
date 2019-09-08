@@ -46,13 +46,28 @@ class SongHtmlView {
   }
 
   playState() {
+    console.log('play-state');
     this.playButton.classList.add('song-button-hidden');
     this.pauseButton.classList.remove('song-button-hidden');
   }
 
   pauseState() {
+    console.log('pause-state');
     this.pauseButton.classList.add('song-button-hidden');
     this.playButton.classList.remove('song-button-hidden');
+  }
+
+  listenPlayer(player) {
+    this.player = player;
+    this.playHandler = () => this.playState();
+    this.pauseHandler = () => this.pauseState();
+    this.player.addEventListener('play', this.playHandler);
+    this.player.addEventListener('pause', this.pauseHandler);
+  }
+
+  unsubscribe() {
+    this.player.removeEventListener('play', this.playHandler);
+    this.player.removeEventListener('pause', this.pauseHandler);
   }
 }
 
@@ -82,9 +97,11 @@ class AudioPlayerHtmlView {
   changeSong(song) {
     if (this.currentSong) {
       this.currentSong.disable();
+      this.currentSong.unsubscribe();
     }
     this.player.changeSong(song.song);
     this.currentSong = song;
+    this.currentSong.listenPlayer(this.audio);
     this.currentSong.activate();
     this.updateView(song.song);
   }
@@ -144,11 +161,9 @@ function main() {
   songs.forEach((s) => {
     const song = new SongHtmlView(s);
     song.playButton.addEventListener('click', () => {
-      song.playState();
       player.play(song);
     });
     song.pauseButton.addEventListener('click', () => {
-      song.pauseState();
       player.pause();
     });
   });
