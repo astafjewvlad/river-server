@@ -46,13 +46,11 @@ class SongHtmlView {
   }
 
   playState() {
-    console.log('play-state');
     this.playButton.classList.add('song-button-hidden');
     this.pauseButton.classList.remove('song-button-hidden');
   }
 
   pauseState() {
-    console.log('pause-state');
     this.pauseButton.classList.add('song-button-hidden');
     this.playButton.classList.remove('song-button-hidden');
   }
@@ -73,7 +71,7 @@ class SongHtmlView {
 
 class AudioPlayer {
   constructor(currentSong = null) {
-   this.currentSong = currentSong;
+    this.currentSong = currentSong;
   }
 
   changeSong(song) {
@@ -84,8 +82,8 @@ class AudioPlayer {
 class AudioPlayerHtmlView {
   constructor(rootId) {
     const rootElement = document.querySelector(rootId);
-    this.root = rootElement; 
-    this.audio = rootElement.querySelector('#player-audio'); 
+    this.root = rootElement;
+    this.audio = rootElement.querySelector('#player-audio');
     this.name = rootElement.querySelector('#player-track-name');
     this.cover = rootElement.querySelector('#player-track-cover');
     this.links = rootElement.querySelector('#player-track-links');
@@ -149,7 +147,7 @@ class AudioPlayerHtmlView {
     }
     this.audio.play();
   }
-  
+
   pause() {
     this.audio.pause();
   }
