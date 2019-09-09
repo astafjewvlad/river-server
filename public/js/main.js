@@ -8,134 +8,104 @@ class Song {
 }
 
 class SongHtmlView {
-  constructor(rootElement) {
-    this.root = rootElement;
-    const src = rootElement.getAttribute('data-source');
-    const name = rootElement.getAttribute('data-name');
-    const cover = rootElement.getAttribute('data-cover');
-    const linksList = Array.prototype.slice.call(rootElement.querySelectorAll('.song-link'));
-    const links = linksList.reduce((linksAcc, l) => {
+  constructor(src, name, cover, links, controlElements, container) {
+    const backgroundDivCss = 'background-image:' 
+      + 'linear-gradient(rgba(0,0,0,.5) 0%, rgba(0,0,0,.5) 100%),'
+      + `url(${cover});`;
+
+    this.song = new Song(src, name, cover, links);
+    this.controlElements = controlElements;
+    this.controlElements.backgroundDiv.style.cssText = backgroundDivCss;
+    this.container = container;
+    this.isActive = false;
+  }
+
+  setPlayer(player) {
+    this.player = player;
+    this.controlElements.playButton.addEventListener('click', () => {
+      player.play(this.song);
+    });
+    this.controlElements.pauseButton.addEventListener('click', () => {
+      player.pause();
+    });
+    this.player.addEventListener('changeSong', (e) => {
+      if (e.detail === this.song && !this.isActive) {
+        this.activeState();
+      } else if (this.isActive) {
+        this.disableState();
+      }
+    });
+  }
+
+  activeState() {
+    this.container.classList.add('song-active');
+    this.playHandler = () => this.playState();
+    this.pauseHandler = () => this.pauseState();
+    this.player.addEventListener('play', this.playHandler);
+    this.player.addEventListener('pause', this.pauseHandler);
+    this.isActive = true;
+  }
+
+  disableState() {
+    this.container.classList.remove('song-active');
+    this.player.removeEventListener('play', this.playHandler);
+    this.player.removeEventListener('pause', this.pauseHandler);
+    this.pauseState();
+    this.isActive = false;
+  }
+
+  playState() {
+    this.controlElements.playButton.classList.add('song-button-hidden');
+    this.controlElements.pauseButton.classList.remove('song-button-hidden');
+  }
+
+  pauseState() {
+    this.controlElements.pauseButton.classList.add('song-button-hidden');
+    this.controlElements.playButton.classList.remove('song-button-hidden');
+  }
+}
+
+class SongHtmlViewParser {
+  static parse(container) {
+    return new SongHtmlView(
+      container.getAttribute('data-source'),
+      container.getAttribute('data-name'),
+      container.getAttribute('data-cover'),
+      this.parseLinks(container),
+      {
+        playButton: container.querySelector('.song-play-button'),
+        pauseButton: container.querySelector('.song-pause-button'),
+        backgroundDiv: container.querySelector('.song-active-background'),
+      },
+      container,
+    );
+  }
+
+  static parseLinks(container) {
+    const linksList = Array.prototype
+      .slice
+      .call(container.querySelectorAll('.song-link'));
+    return linksList.reduce((linksAcc, l) => {
       linksAcc.push({
         icon: l.querySelector('.social-icon').src,
         href: l.href,
       });
       return linksAcc;
     }, []);
-    this.background = rootElement.querySelector('.song-active-background');
-    this.background.style.cssText = `background-image: linear-gradient(rgba(0,0,0,.5) 0%, rgba(0,0,0,.5) 100%), url(${cover});`;
-    this.playButton = rootElement.querySelector('.song-play-button');
-    this.pauseButton = rootElement.querySelector('.song-pause-button');
-    this.song = new Song(src, name, cover, links);
-    this.isActive = false;
-  }
-
-  activate() {
-    if (!this.isActive) {
-      this.root.classList.add('song-active');
-      this.playState();
-      this.isActive = true;
-    }
-  }
-
-  disable() {
-    if (this.isActive) {
-      this.root.classList.remove('song-active');
-      this.pauseState();
-      this.isActive = false;
-    }
-  }
-
-  playState() {
-    this.playButton.classList.add('song-button-hidden');
-    this.pauseButton.classList.remove('song-button-hidden');
-  }
-
-  pauseState() {
-    this.pauseButton.classList.add('song-button-hidden');
-    this.playButton.classList.remove('song-button-hidden');
-  }
-
-  listenPlayer(player) {
-    this.player = player;
-    this.playHandler = () => this.playState();
-    this.pauseHandler = () => this.pauseState();
-    this.player.addEventListener('play', this.playHandler);
-    this.player.addEventListener('pause', this.pauseHandler);
-  }
-
-  unsubscribe() {
-    this.player.removeEventListener('play', this.playHandler);
-    this.player.removeEventListener('pause', this.pauseHandler);
   }
 }
 
 class AudioPlayer {
-  constructor(currentSong = null) {
-    this.currentSong = currentSong;
+  constructor(player) {
+    this.audio = player;
   }
 
   changeSong(song) {
     this.currentSong = song;
-  }
-}
-
-class AudioPlayerHtmlView {
-  constructor(rootId) {
-    const rootElement = document.querySelector(rootId);
-    this.root = rootElement;
-    this.audio = rootElement.querySelector('#player-audio');
-    this.name = rootElement.querySelector('#player-track-name');
-    this.cover = rootElement.querySelector('#player-track-cover');
-    this.links = rootElement.querySelector('#player-track-links');
-    this.player = new AudioPlayer();
-    this.isShown = this.root.classList.contains('player-active');
-    this.currentSong = null;
-  }
-
-  changeSong(song) {
-    if (this.currentSong) {
-      this.currentSong.disable();
-      this.currentSong.unsubscribe();
-    }
-    this.player.changeSong(song.song);
-    this.currentSong = song;
-    this.currentSong.listenPlayer(this.audio);
-    this.currentSong.activate();
-    this.updateView(song.song);
-  }
-
-  updateView(song) {
-    this.name.innerHTML = song.name;
-    this.cover.src = song.cover;
-    this.audio.src = song.src;
-    while (this.links.firstChild) {
-      this.links.firstChild.remove();
-    }
-    song.links.forEach((link) => {
-      const linkElement = document.createElement('a');
-      linkElement.href = link.href;
-      linkElement.classList.add('social-link');
-      const iconElement = document.createElement('img');
-      iconElement.src = link.icon;
-      iconElement.classList.add('social-icon');
-      linkElement.appendChild(iconElement);
-      this.links.appendChild(linkElement);
+    const changeSongEvent = new CustomEvent('changeSong', {
+      detail: this.currentSong,
     });
-    this.show();
-  }
-
-  show() {
-    if (!this.isShown) {
-      this.root.classList.add('player-active');
-      this.isShown = true;
-    }
-  }
-
-  hide() {
-    if (this.isShown) {
-      this.root.classList.remove('player-active');
-      this.isShown = false;
-    }
+    this.audio.dispatchEvent(changeSongEvent);
   }
 
   play(song) {
@@ -146,24 +116,102 @@ class AudioPlayerHtmlView {
       this.changeSong(song);
     }
     this.audio.play();
+    const playEvent = new CustomEvent('play', { detail: this.currentSong });
+    this.audio.dispatchEvent(playEvent);
   }
 
   pause() {
     this.audio.pause();
+    const pauseEvent = new CustomEvent('pause');
+    this.audio.dispatchEvent(pauseEvent);
+  }
+
+  addEventListener(event, callback) {
+    this.audio.addEventListener(event, callback);
+  }
+
+  removeEventListener(event, callback) {
+    this.audio.removeEventListener(event, callback);
+  }
+}
+
+class AudioPlayerHtmlView {
+  constructor(controlElements, container) {
+    this.container = container;
+    this.controlElements = controlElements;
+    this.isShown = this.container.classList.contains('player-active');
+  }
+
+  setPlayer(player) {
+    this.player = player;  
+    this.player.addEventListener('changeSong', (e) => {
+      this.updateView(e.detail);
+    });
+  }
+
+  updateView(song) {
+    this.controlElements.audio.src = song.src;
+    (() => {
+      this.hide();
+      setTimeout(() => {
+        this.controlElements.name.innerHTML = song.name;
+        this.controlElements.cover.src = song.cover;
+        while (this.controlElements.links.firstChild) {
+          this.controlElements.links.firstChild.remove();
+        }
+        song.links.forEach((link) => {
+          const linkElement = document.createElement('a');
+          linkElement.href = link.href;
+          linkElement.classList.add('social-link');
+          const iconElement = document.createElement('img');
+          iconElement.src = link.icon;
+          iconElement.classList.add('social-icon');
+          linkElement.appendChild(iconElement);
+          this.controlElements.links.appendChild(linkElement);
+          this.show();
+        });
+      }, 300);
+    })();
+  }
+
+  show() {
+    if (!this.isShown) {
+      this.container.classList.add('player-active');
+      this.isShown = true;
+    }
+  }
+
+  hide() {
+    if (this.isShown) {
+      this.container.classList.remove('player-active');
+      this.isShown = false;
+    }
+  }
+}
+
+class AudioPlayerHtmlViewParser {
+  static parse(container) {
+    return new AudioPlayerHtmlView(
+      {
+        audio: container.querySelector('#player-audio'),
+        name: container.querySelector('#player-track-name'),
+        cover: container.querySelector('#player-track-cover'),
+        links: container.querySelector('#player-track-links'),
+      },
+      container
+    );
   }
 }
 
 function main() {
-  const player = new AudioPlayerHtmlView('#player-container');
+  const playerContainer = document.querySelector('#player-container');
+  const playerView = AudioPlayerHtmlViewParser.parse(playerContainer);
+  const player = new AudioPlayer(playerView.controlElements.audio);
+  playerView.setPlayer(player);
   const songs = document.querySelectorAll('.song');
-  songs.forEach((s) => {
-    const song = new SongHtmlView(s);
-    song.playButton.addEventListener('click', () => {
-      player.play(song);
-    });
-    song.pauseButton.addEventListener('click', () => {
-      player.pause();
-    });
+  songs.forEach((song) => {
+    const songView = SongHtmlViewParser.parse(song);
+    songView.setPlayer(player);
   });
 }
 
