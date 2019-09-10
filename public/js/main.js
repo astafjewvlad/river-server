@@ -9,7 +9,7 @@ class Song {
 
 class SongHtmlView {
   constructor(src, name, cover, links, controlElements, container) {
-    const backgroundDivCss = 'background-image:' 
+    const backgroundDivCss = 'background-image:'
       + 'linear-gradient(rgba(0,0,0,.5) 0%, rgba(0,0,0,.5) 100%),'
       + `url(${cover});`;
 
@@ -18,6 +18,11 @@ class SongHtmlView {
     this.controlElements.backgroundDiv.style.cssText = backgroundDivCss;
     this.container = container;
     this.isActive = false;
+
+    this.controlElements.infoButton.addEventListener('click', () => {
+      this.controlElements.infoDiv.classList.toggle('song-info-active'); 
+      this.controlElements.coverDiv.classList.toggle('song-cover-info-active');
+    });
   }
 
   setPlayer(player) {
@@ -75,6 +80,9 @@ class SongHtmlViewParser {
       {
         playButton: container.querySelector('.song-play-button'),
         pauseButton: container.querySelector('.song-pause-button'),
+        coverDiv: container.querySelector('.song-cover'),
+        infoButton: container.querySelector('.song-info-button'),
+        infoDiv: container.querySelector('.song-info'),
         backgroundDiv: container.querySelector('.song-active-background'),
       },
       container,
@@ -143,7 +151,7 @@ class AudioPlayerHtmlView {
   }
 
   setPlayer(player) {
-    this.player = player;  
+    this.player = player;
     this.player.addEventListener('changeSong', (e) => {
       this.updateView(e.detail);
     });
