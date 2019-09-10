@@ -18,10 +18,13 @@ class SongHtmlView {
     this.controlElements.backgroundDiv.style.cssText = backgroundDivCss;
     this.container = container;
     this.isActive = false;
-
-    this.controlElements.infoButton.addEventListener('click', () => {
-      this.controlElements.infoDiv.classList.toggle('song-info-active'); 
-      this.controlElements.coverDiv.classList.toggle('song-cover-info-active');
+    this.controlElements.coverDiv.addEventListener('click', () => {
+      this.container.classList.add('song-popup');
+      document.body.classList.add('body-stopped-y');
+    });
+    this.controlElements.closeButton.addEventListener('click', () => {
+      this.container.classList.remove('song-popup');
+      document.body.classList.remove('body-stopped-y');
     });
   }
 
@@ -80,9 +83,8 @@ class SongHtmlViewParser {
       {
         playButton: container.querySelector('.song-play-button'),
         pauseButton: container.querySelector('.song-pause-button'),
+        closeButton: container.querySelector('.song-close-button'),
         coverDiv: container.querySelector('.song-cover'),
-        infoButton: container.querySelector('.song-info-button'),
-        infoDiv: container.querySelector('.song-info'),
         backgroundDiv: container.querySelector('.song-active-background'),
       },
       container,

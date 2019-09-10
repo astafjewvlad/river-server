@@ -46,6 +46,10 @@ html(lang="ru")
             div(class="songs")
               each track in tracks
                 article(class="song" data-source=track.source data-cover=track.coverImg data-name=track.name)
+                  div(class="song-fullscreen-menu")
+                    button(class="song-close-button")
+                      i(class="fas fa-arrow-left")
+                      span Треки
                   img(class="song-cover" src=track.coverImg alt="")
                   div(class="song-panel")
                     h3(class="song-name")= track.name 
@@ -61,8 +65,6 @@ html(lang="ru")
                           a(class="song-link social-link" href=link.href)
                             img(src=link.icon alt="" class="social-icon song-social-icon")
                             span(class="song-link-text")= link.text
-                      button(class="song-button song-info-button") 
-                        i(class="fas fa-info-circle")
                   div(class="song-info") 
                     p= track.desc
                     p(class="song-date") 08.03.19
@@ -78,6 +80,5 @@ html(lang="ru")
                a(class="social-link" href="#")
                 img(src="/media/soundcloud-icon.png" class="social-icon")
             audio(id="player-audio" class="player-controls" controls controlsList="nodownload")
-        
     script(src="/js/main.js" type="text/javascript")
     script(src="https://kit.fontawesome.com/dec4476dad.js")
