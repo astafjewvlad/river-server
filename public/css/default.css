@@ -17,7 +17,7 @@
 body {
   color: white;
   font-family: 'Roboto', sans-serif;    
-  font-size: 12pt;
+  font-size: 11pt;
   line-height: 1.3;
   margin: 0;
   padding: 0;
@@ -134,7 +134,7 @@ header {
 }
 
 .lead {
-  font-size: 10em;
+  font-size: 5em;
   font-weight: 900;
   margin: 0;
   text-align: center;
@@ -189,7 +189,7 @@ header {
 #about {
   align-items: center;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   padding-bottom: 50px;
   padding-top: 50px;
@@ -198,10 +198,9 @@ header {
 .about-img {
   border-radius: 50%;
   box-shadow: 0 10px 30px rgba(0,0,0,.3);
-  height: 280px;
-  margin-right: 50px;
+  height: 100px;
   object-fit: cover;
-  width: 280px;
+  width: 100px;
 }
 
 
@@ -218,7 +217,7 @@ header {
 
 .song {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin-bottom: 50px;
   position: relative;
 }
@@ -266,12 +265,13 @@ header {
 }
 
 .social-li {
-  display: inline-block;
-  margin: 5px;
+  display: block;
+  margin: 0;
+  padding: 5px 0px;
 }
 
 .social-icon {
-  heght: 1em;
+  height: 1em;
   margin-right: 5px;
   width: 1em;
 }
@@ -286,6 +286,7 @@ header {
 .section-header {
   text-align: center;
 }
+
 .song-links {
   margin-left: 10px;
 }
