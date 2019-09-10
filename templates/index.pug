@@ -47,10 +47,8 @@ html(lang="ru")
               each track in tracks
                 article(class="song" data-source=track.source data-cover=track.coverImg data-name=track.name)
                   img(class="song-cover" src=track.coverImg alt="")
-                  div(class="song-info") 
+                  div(class="song-panel")
                     h3(class="song-name")= track.name 
-                    p= track.desc
-                    p(class="song-date") 08.03.19
                     div(class="song-actions")
                       button(class="song-button song-play-button") 
                         i(class="fas fa-play")
@@ -61,19 +59,25 @@ html(lang="ru")
                       div(class="song-links")
                         each link in track.links
                           a(class="song-link social-link" href=link.href)
-                            img(src=link.icon alt="" class="social-icon")
+                            img(src=link.icon alt="" class="social-icon song-social-icon")
                             span(class="song-link-text")= link.text
+                      button(class="song-button song-info-button") 
+                        i(class="fas fa-info-circle")
+                  div(class="song-info") 
+                    p= track.desc
+                    p(class="song-date") 08.03.19
                   div(class="song-active-background")
     div(id="player-container")
       div(class="container")
         div(id="player")
           img(id="player-track-cover" src="/media/RiverSummer.jpg")
-          div(id="player-track-info")
-            span(id="player-track-name") Summer
-            div(id="player-track-links")
-             a(class="social-link" href="#")
-              img(src="/media/soundcloud-icon.png" class="social-icon")
-          audio(id="player-audio" class="player-controls" controls controlsList="nodownload")
+          div(class="player-info-and-player")
+            div(id="player-track-info")
+              span(id="player-track-name") Summer
+              div(id="player-track-links")
+               a(class="social-link" href="#")
+                img(src="/media/soundcloud-icon.png" class="social-icon")
+            audio(id="player-audio" class="player-controls" controls controlsList="nodownload")
         
     script(src="/js/main.js" type="text/javascript")
     script(src="https://kit.fontawesome.com/dec4476dad.js")
