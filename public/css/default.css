@@ -451,6 +451,7 @@ header {
   width: 100%;
   bottom: 0;
   padding: var(--init-padding);
+  padding-bottom: var(--player-height);
   z-index: 4;
   margin: 0;
   color: var(--text-light-color);
