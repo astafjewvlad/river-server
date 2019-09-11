@@ -30,7 +30,7 @@ html(lang="ru")
             section(id="about")
               img(class="about-img" src=about.photo)
               div(class="about-text")
-                h2= about.name
+                h2(class="about-name")= about.name
                 p= about.text
                 ul(id="socials")
                   each link in socialLinks

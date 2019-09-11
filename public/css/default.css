@@ -105,7 +105,7 @@ header {
 }
 
 .main-nav-ul li {
-  font-weight: 100;
+  font-weight: 300;
   display: inline-block;
   margin: 0 var(--init-padding);
 }
@@ -194,7 +194,6 @@ header {
 
 #about {
   align-items: center;
-  display: flex;
   flex-direction: column;
   justify-content: center;
   padding-bottom: 50px;
@@ -204,11 +203,26 @@ header {
 .about-img {
   border-radius: 50%;
   box-shadow: 0 10px 30px rgba(0,0,0,.3);
-  height: 100px;
+  height: 76px;
   object-fit: cover;
-  width: 100px;
+  width: 76px;
+  float: left;
+  margin-right: 20px;
+  margin-top: 0.83em;
+  font-size: 2em;
 }
 
+@media screen and (min-width: 375px) {
+  .about-name {
+    line-height: 2.5em;
+  }
+}
+
+.about-name::after {
+  clear: both;
+  content: "";
+  display: block;
+}
 
 /* 
  * Music
@@ -371,6 +385,7 @@ header {
 
 .song-fullscreen-menu {
   display: none;
+  background: var(--bg-dark-color);
 }
 
 /*
@@ -453,6 +468,7 @@ header {
   width: 100%;
   bottom: 0;
   padding: var(--init-padding);
+  padding-top: 0;
   padding-bottom: var(--player-height);
   z-index: 4;
   margin: 0;
@@ -467,7 +483,9 @@ header {
 .song-popup .song-fullscreen-menu {
   display: flex;
   font-size: 1em;
-  margin: 10px 0;
+  margin-left: calc(0px - var(--init-padding));
+  margin-right: calc(0px - var(--init-padding));
+  padding: 0 var(--init-padding);
 }
 
 .song-close-button {
@@ -482,3 +500,10 @@ header {
 .song-close-button .fas {
   margin-right: 5px;
 }
+
+.song-popup .song-fullscreen-menu {
+  position: sticky;
+  top: 0;
+  margin-bottom: 10px;
+}
+
