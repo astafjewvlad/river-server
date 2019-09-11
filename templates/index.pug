@@ -47,27 +47,30 @@ html(lang="ru")
               each track in tracks
                 article(class="song" data-source=track.source data-cover=track.coverImg data-name=track.name)
                   div(class="song-fullscreen-menu")
-                    button(class="song-close-button")
-                      i(class="fas fa-arrow-left")
-                      span Треки
-                  img(class="song-cover" src=track.coverImg alt="")
-                  div(class="song-panel")
-                    h3(class="song-name")= track.name 
-                    div(class="song-actions")
-                      button(class="song-button song-play-button") 
-                        i(class="fas fa-play")
-                        span(class="song-button-text") Слушать
-                      button(class="song-button song-pause-button song-button-hidden")
-                        i(class="fas fa-pause")
-                        span(class="song-button-text") Пауза
-                      div(class="song-links")
-                        each link in track.links
-                          a(class="song-link social-link" href=link.href)
-                            img(src=link.icon alt="" class="social-icon song-social-icon")
-                            span(class="song-link-text")= link.text
-                  div(class="song-info") 
-                    p= track.desc
-                    p(class="song-date") 08.03.19
+                    div(class="container")
+                      button(class="song-close-button")
+                        i(class="fas fa-arrow-left")
+                        span Треки
+                  div(class="song-view")
+                    img(class="song-cover" src=track.coverImg alt="")
+                    div
+                      div(class="song-panel")
+                        h3(class="song-name")= track.name 
+                        div(class="song-actions")
+                          button(class="song-button song-play-button") 
+                            i(class="fas fa-play")
+                            span(class="song-button-text") Слушать
+                          button(class="song-button song-pause-button song-button-hidden")
+                            i(class="fas fa-pause")
+                            span(class="song-button-text") Пауза
+                          div(class="song-links")
+                            each link in track.links
+                              a(class="song-link social-link" href=link.href)
+                                img(src=link.icon alt="" class="social-icon song-social-icon")
+                                span(class="song-link-text")= link.text
+                      div(class="song-info") 
+                        p= track.desc
+                        p(class="song-date") 08.03.19
                   div(class="song-active-background")
     div(id="player-container")
       div(class="container")

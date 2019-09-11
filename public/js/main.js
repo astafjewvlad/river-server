@@ -187,6 +187,7 @@ class AudioPlayerHtmlView {
   show() {
     if (!this.isShown) {
       this.container.classList.add('player-active');
+      document.body.classList.add('body-player-showed');
       this.isShown = true;
     }
   }
@@ -194,6 +195,7 @@ class AudioPlayerHtmlView {
   hide() {
     if (this.isShown) {
       this.container.classList.remove('player-active');
+      document.body.classList.remove('body-player-showed');
       this.isShown = false;
     }
   }
