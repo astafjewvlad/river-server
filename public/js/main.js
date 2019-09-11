@@ -93,7 +93,7 @@ class SongHtmlViewParser {
         pauseButton: container.querySelector('.song-pause-button'),
         closeButton: container.querySelector('.song-close-button'),
         coverDiv: container.querySelector('.song-cover'),
-        backgroundDiv: container.querySelector('.song-active-background'),
+        backgroundDiv: container.querySelector('.song-popup-background'),
       },
       container,
     );
