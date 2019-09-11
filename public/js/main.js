@@ -47,7 +47,7 @@ class SongHtmlView {
     this.container.classList.add('song-popup');
     document.body.classList.add('body-stopped-y');
   }
-  
+
   thumbnailState() {
     this.container.classList.remove('song-popup');
     document.body.classList.remove('body-stopped-y');
@@ -187,6 +187,14 @@ class AudioPlayerHtmlView {
           linkElement.appendChild(iconElement);
           this.controlElements.links.appendChild(linkElement);
           this.show();
+          this.controlElements.cover.addEventListener('click', () => {
+            const currentPopup = document.querySelector('.song-popup');
+            if (currentPopup) { 
+              currentPopup.classList.remove('song-popup');
+            }
+            const activeSong = document.querySelector('.song-active');
+            activeSong.classList.add('song-popup');
+          });
         });
       }, 300);
     })();
