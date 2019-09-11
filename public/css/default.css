@@ -617,6 +617,7 @@ header {
   .song-popup .song-view{
     flex-direction: row;
     max-width: 1024px;
+    margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
   }
