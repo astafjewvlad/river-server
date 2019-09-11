@@ -19,12 +19,10 @@ class SongHtmlView {
     this.container = container;
     this.isActive = false;
     this.controlElements.coverDiv.addEventListener('click', () => {
-      this.container.classList.add('song-popup');
-      document.body.classList.add('body-stopped-y');
+      this.fullscreenState();
     });
     this.controlElements.closeButton.addEventListener('click', () => {
-      this.container.classList.remove('song-popup');
-      document.body.classList.remove('body-stopped-y');
+      this.thumbnailState();
     });
   }
 
@@ -43,6 +41,16 @@ class SongHtmlView {
         this.disableState();
       }
     });
+  }
+
+  fullscreenState() {
+    this.container.classList.add('song-popup');
+    document.body.classList.add('body-stopped-y');
+  }
+  
+  thumbnailState() {
+    this.container.classList.remove('song-popup');
+    document.body.classList.remove('body-stopped-y');
   }
 
   activeState() {
