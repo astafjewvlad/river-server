@@ -5,8 +5,8 @@ const fs = require('fs');
 const app = express();
 
 const server = {
-  host: process.argv[2],
-  port: process.argv[3],
+  ip: process.env.OPENSHIFT_NODE_JS_IP || '128.0.0.1',
+  port: process.env.OPENSHIFT_NODE_JS_PORT || 8080,
 };
 
 const byRoot = (filepath) => path.join(__dirname, filepath);
@@ -29,6 +29,6 @@ app.get('/', (req, res) => {
   });
 });
 
-app.listen(server.port, server.host, () => {
-  console.log(`Server started! Listening ${server.host}:${server.port}`);
+app.listen(server.port, server.ip, () => {
+  console.log(`Server started! Listening ${server.ip}:${server.port}`);
 });
