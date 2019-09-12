@@ -5,8 +5,8 @@ const fs = require('fs');
 const app = express();
 
 const server = {
-  ip: process.env.OPENSHIFT_NODE_JS_IP || '128.0.0.1',
-  port: process.env.OPENSHIFT_NODE_JS_PORT || 8080,
+  ip: process.env.IP || process.env.OPENSHIFT_NODE_JS_IP || '0.0.0.0',
+  port: process.env.PORT || process.env.OPENSHIFT_NODE_JS_PORT || 8080,
 };
 
 const byRoot = (filepath) => path.join(__dirname, filepath);
