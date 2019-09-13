@@ -2,7 +2,14 @@ const express = require('express');
 
 const app = express();
 
-const homeRouter = require('./routes/home-router');
+const homeController = require('./controllers/home-controller');
+const tracksRepository = require('./repos/tracks-repository');
+const pageInfoRepository = require('./repos/pageInfo-repository');
+
+const homeRouter = require('./routes/home-router')(homeController({
+  tracks: tracksRepository,
+  pageInfo: pageInfoRepository,
+}));
 
 const server = {
   ip: process.env.IP || process.env.OPENSHIFT_NODE_JS_IP || '0.0.0.0',

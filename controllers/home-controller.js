@@ -1,27 +1,25 @@
-const tracksRepository = require('../repos/tracks-repository');
-const pageInfoRepository = require('../repos/pageInfo-repository');
+class HomeController {
+  constructor(repositories) {
+    this.repositories = repositories;
+  }
 
-async function getOr(promise, orDefault = {}) {
-  try {
-    const value = await promise;
-    return value;
-  } catch (e) {
-    return orDefault;
+  getIndex(req, res) {
+    (async (repositories) => {
+      const about = await repositories.pageInfo.getAboutOr({});
+      const socialLinks = await repositories.pageInfo.getSocialLinksOr({});
+      const tracks = await repositories.tracks.getAllOr({});
+      res.render('index', {
+        tracks,
+        about,
+        socialLinks,
+      });
+    })(this.repositories);
   }
 }
 
-
-async function getIndex(req, res) {
-  const about = await getOr(pageInfoRepository.getAbout, {});
-  const socialLinks = await getOr(pageInfoRepository.getSocialLinks, {});
-  const tracks = await getOr(tracksRepository.getAll, {});
-  res.render('index', {
-    tracks,
-    about,
-    socialLinks,
-  });
-}
-
-module.exports = {
-  getIndex,
+module.exports = (repositories) => {
+  const homeController = new HomeController(repositories);
+  return {
+    getIndex: homeController.getIndex.bind(homeController),
+  };
 };
