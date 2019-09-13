@@ -494,7 +494,7 @@ header {
 
 #player-container {
   position: fixed;
-  bottom: calc(0px - var(--player-height));
+  bottom: calc(0px - var(--player-height) - 35px);
   left: 0;
   z-index: 6;
 
@@ -505,7 +505,7 @@ header {
 }
 
 .player-active {
-  transform: translateY(calc(0px - var(--player-height)));
+  transform: translateY(calc(0px - var(--player-height) - 35px));
 }
 
 #player {
@@ -649,3 +649,91 @@ header {
     margin-top: 0;
   }
 }
+
+/*
+ * Playlist
+ **/
+
+#pl--toggle-btn {
+  background: none;
+  width: 100%;
+  text-align: center;
+  border: none;
+  padding: 10px 0;
+}
+
+#pl--toggle-btn:focus {
+  outline: none;
+}
+
+.pl-tb--icon { 
+  transition: .2s transform .1s ease-in;
+}
+
+.pl-tb--opened {
+  transform: rotate(180deg);
+}
+
+#playlist {
+  color: var(--text-dark-color);
+  display: none;
+}
+
+.pl--showed {
+  display: block !important;
+}
+
+#pl--header {
+  font-weight: 500;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+#pl--list {
+  overflow-y: auto;
+}
+
+.pl--item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.pl-i--active {
+  background: #eee;
+}
+
+.pl-i--cover {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.pl-i--btn {
+  border: none;
+  width: 60px;
+  color: var(--text-dark-color);
+  background: none;
+  border-radius: 15px;
+  margin-left: auto;
+  height: 50px;
+  padding: 5px 6px;
+}
+
+.pl-i--pause-btn {
+  display: none;
+}
+
+.pl-i--playing .pl-i--play-btn {
+  display: none;
+}
+
+.pl-i--playing  .pl-i--pause-btn {
+  display: block;
+}
+

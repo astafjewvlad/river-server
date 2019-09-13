@@ -256,6 +256,130 @@ class AudioPlayerHtmlViewParser {
   }
 }
 
+class ItemPlaylistHtmlView {
+  constructor(song, player) {
+    this.song = song;
+    this.player = player;
+  }
+
+  make() {
+    this.container = document.createElement('div');
+    this.container.classList.add('pl--item');
+    this.container.appendChild(this.makeCover());
+    this.container.appendChild(this.makeName());
+    this.container.appendChild(this.makePlayButton());
+    this.container.appendChild(this.makePauseButton());
+    this.player.addEventListener('changeSong', (e) => {
+      if (e.detail === this.song) {
+        this.container.classList.add('pl-i--active');
+        this.playerPlayHandler = () => {
+          this.container.classList.add('pl-i--playing');
+        };
+        this.playerPauseHandler = () => {
+          this.container.classList.remove('pl-i--playing');
+        };
+        this.player.addEventListener('play', this.playerPlayHandler);
+        this.player.addEventListener('pause', this.playerPauseHandler);
+        this.isActive = true;
+      } else if (this.isActive) {
+        this.player.removeEventListener('play', this.playerPlayHandler);
+        this.player.removeEventListener('pause', this.playerPauseHandler);
+        this.container.classList.remove('pl-i--active');
+        this.container.classList.remove('pl-i--playing');
+        this.isActive = false;
+      }
+    });
+
+    return this.container;
+  }
+
+  makeCover() {
+    const coverImg = document.createElement('img');
+    coverImg.classList.add('pl-i--cover');
+    coverImg.src = this.song.cover;
+    return coverImg;
+  }
+
+  makeName() {
+    const nameDiv = document.createElement('div');
+    nameDiv.classList.add('pl-i--name');
+    nameDiv.innerHTML = this.song.name;
+    return nameDiv;
+  }
+
+  makePlayButton() {
+    const playButton = document.createElement('button');
+    playButton.classList.add('pl-i--btn');
+    playButton.classList.add('pl-i--play-btn');
+    const playIcon = document.createElement('i');
+    playIcon.classList.add('fas');
+    playIcon.classList.add('fa-play'); 
+    playButton.appendChild(playIcon);
+
+    playButton.addEventListener('click', () => {
+      this.player.play(this.song);
+    });
+
+    return playButton;
+  }
+
+  makePauseButton() {
+    const pauseButton = document.createElement('button');
+    pauseButton.classList.add('pl-i--btn');
+    pauseButton.classList.add('pl-i--pause-btn');
+    const pauseIcon = document.createElement('i');
+    pauseIcon.classList.add('fas');
+    pauseIcon.classList.add('fa-pause');
+    pauseButton.appendChild(pauseIcon);
+
+    pauseButton.addEventListener('click', () => {
+      this.player.pause();
+    });
+
+    return pauseButton;
+  }
+
+  static makeItem(song, player) {
+    const item = new ItemPlaylistHtmlView(song, player);
+    return item.make();
+  }
+}
+
+class PlaylistHtmlView {
+  constructor(container) {
+    this.container = container;
+    this.controlElements = {};
+    this.controlElements.list = this.container.querySelector('#pl--list');
+    this.controlElements.toggleBtn = document.querySelector('#pl--toggle-btn');
+    this.isShown = false;
+    this.controlElements.toggleBtn.addEventListener('click', () => {
+      this.container.classList.toggle('pl--showed');
+      const btnIcon = this.controlElements.toggleBtn.firstChild;
+      btnIcon.classList.toggle('pl-tb--opened');
+    });
+  }
+
+  setPlayer(player) {
+    this.player = player;
+  }
+
+  update(playlist) {
+    this.playlist = playlist;
+    this.clean();
+    playlist.forEach((song) => {
+      const item = ItemPlaylistHtmlView.makeItem(song, this.player);
+      this.controlElements.list.appendChild(item);
+    });
+  }
+
+  clean() {
+    while(this.controlElements.list.firstChild) {
+      this.controlElements.list.firstChild.remove();
+    }
+  }
+}
+
+
 function main() {
   const playerContainer = document.querySelector('#player-container');
   const playerView = AudioPlayerHtmlViewParser.parse(playerContainer);
@@ -269,6 +393,9 @@ function main() {
     songView.setPlayer(player);
   });
   player.setPlaylist(playlist.reverse());
+  const playlistView = new PlaylistHtmlView(document.querySelector('#playlist'));
+  playlistView.setPlayer(player);
+  playlistView.update(playlist);
 }
 
 window.addEventListener('load', main);
