@@ -118,6 +118,14 @@ class AudioPlayer {
     this.audio = player;
   }
 
+  setPlaylist(playlist) {
+    this.playlist = playlist;
+    const changePlaylistEvent = new CustomEvent('changePlaylist', {
+      detail: this.playlist,
+    });
+    this.audio.dispatchEvent(changePlaylistEvent);
+  }
+
   changeSong(song) {
     this.currentSong = song;
     const changeSongEvent = new CustomEvent('changeSong', {
@@ -131,8 +139,25 @@ class AudioPlayer {
       if (!this.audio.paused) {
         this.audio.pause();
       }
+      if (this.playlistHandler) {
+        this.audio.removeEventListener('ended', this.playlistHandler);
+      }
       this.changeSong(song);
+      this.playlistHandler = () => {
+        if (this.playlist) {
+          const currentPosition = this.playlist.indexOf(this.currentSong);
+          const isFound = (index) => index > -1;
+          if (isFound(currentPosition)) {
+            const isNotLast = (index, length) => index < length - 1;
+            const next = (isNotLast(currentPosition, this.playlist.length)) 
+              ? currentPosition + 1
+              : 0;
+            this.play(this.playlist[next]);
+          }
+        }
+      };
     }
+    this.audio.addEventListener('ended', this.playlistHandler);
     this.audio.play();
     const playEvent = new CustomEvent('play', { detail: this.currentSong });
     this.audio.dispatchEvent(playEvent);
@@ -189,7 +214,7 @@ class AudioPlayerHtmlView {
           this.show();
           this.controlElements.cover.addEventListener('click', () => {
             const currentPopup = document.querySelector('.song-popup');
-            if (currentPopup) { 
+            if (currentPopup) {
               currentPopup.classList.remove('song-popup');
             }
             const activeSong = document.querySelector('.song-active');
@@ -237,10 +262,13 @@ function main() {
   const player = new AudioPlayer(playerView.controlElements.audio);
   playerView.setPlayer(player);
   const songs = document.querySelectorAll('.song');
+  const playlist = [];
   songs.forEach((song) => {
     const songView = SongHtmlViewParser.parse(song);
+    playlist.push(songView.song);
     songView.setPlayer(player);
   });
+  player.setPlaylist(playlist.reverse());
 }
 
 window.addEventListener('load', main);
