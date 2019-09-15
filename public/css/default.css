@@ -574,6 +574,13 @@ header {
   margin-right: 10px;
 }
 
+#player-audio-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
 .song-popup {
   background: var(--bg-dark-color);
   position: fixed;
@@ -656,10 +663,8 @@ header {
 
 #pl--toggle-btn {
   background: none;
-  width: 100%;
-  text-align: center;
   border: none;
-  padding: 10px 0;
+  padding: 10px;
 }
 
 #pl--toggle-btn:focus {
@@ -691,6 +696,7 @@ header {
 
 #pl--list {
   overflow-y: auto;
+  height: 40vh;
 }
 
 .pl--item {

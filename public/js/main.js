@@ -149,7 +149,7 @@ class AudioPlayer {
           const isFound = (index) => index > -1;
           if (isFound(currentPosition)) {
             const isNotLast = (index, length) => index < length - 1;
-            const next = (isNotLast(currentPosition, this.playlist.length)) 
+            const next = (isNotLast(currentPosition, this.playlist.length))
               ? currentPosition + 1
               : 0;
             this.play(this.playlist[next]);
@@ -194,35 +194,30 @@ class AudioPlayerHtmlView {
 
   updateView(song) {
     this.controlElements.audio.src = song.src;
-    (() => {
-      this.hide();
-      setTimeout(() => {
-        this.controlElements.name.innerHTML = song.name;
-        this.controlElements.cover.src = song.cover;
-        while (this.controlElements.links.firstChild) {
-          this.controlElements.links.firstChild.remove();
-        }
-        song.links.forEach((link) => {
-          const linkElement = document.createElement('a');
-          linkElement.href = link.href;
-          linkElement.classList.add('social-link');
-          const iconElement = document.createElement('img');
-          iconElement.src = link.icon;
-          iconElement.classList.add('social-icon');
-          linkElement.appendChild(iconElement);
-          this.controlElements.links.appendChild(linkElement);
-          this.show();
-          this.controlElements.cover.addEventListener('click', () => {
-            const currentPopup = document.querySelector('.song-popup');
-            if (currentPopup) {
-              currentPopup.classList.remove('song-popup');
-            }
-            const activeSong = document.querySelector('.song-active');
-            activeSong.classList.add('song-popup');
-          });
-        });
-      }, 300);
-    })();
+    this.controlElements.name.innerHTML = song.name;
+    this.controlElements.cover.src = song.cover;
+    while (this.controlElements.links.firstChild) {
+      this.controlElements.links.firstChild.remove();
+    }
+    song.links.forEach((link) => {
+      const linkElement = document.createElement('a');
+      linkElement.href = link.href;
+      linkElement.classList.add('social-link');
+      const iconElement = document.createElement('img');
+      iconElement.src = link.icon;
+      iconElement.classList.add('social-icon');
+      linkElement.appendChild(iconElement);
+      this.controlElements.links.appendChild(linkElement);
+    });
+    this.show();
+    this.controlElements.cover.addEventListener('click', () => {
+      const currentPopup = document.querySelector('.song-popup');
+      if (currentPopup) {
+        currentPopup.classList.remove('song-popup');
+      }
+      const activeSong = document.querySelector('.song-active');
+      activeSong.classList.add('song-popup');
+    });
   }
 
   show() {
@@ -313,7 +308,7 @@ class ItemPlaylistHtmlView {
     playButton.classList.add('pl-i--play-btn');
     const playIcon = document.createElement('i');
     playIcon.classList.add('fas');
-    playIcon.classList.add('fa-play'); 
+    playIcon.classList.add('fa-play');
     playButton.appendChild(playIcon);
 
     playButton.addEventListener('click', () => {
